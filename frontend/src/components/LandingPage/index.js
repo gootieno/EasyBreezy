@@ -2,15 +2,9 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Paper from "@material-ui/core/Paper";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-
 import "./index.css";
+import Navigation from "../Navigation";
+import Destination from "../Destination";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,21 +29,10 @@ function LandingPage() {
   const classes = useStyles();
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">Easy Breezy</Typography>
-        </Toolbar>
-      </AppBar>
-
+      <Navigation />
       <div className="destination-container">
         <div>
-          <Typography
-            variant="h6"
-            className={classes.title}
-            onClick={handleDestinations}
-          >
-            Destinations
-          </Typography>
+          <Destination />
         </div>
       </div>
     </div>
