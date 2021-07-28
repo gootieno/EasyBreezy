@@ -1,6 +1,14 @@
-.destination-container {
-  padding: 100px;
+.landing-page-container {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
+  height: 80%;
+  overflow: hidden;
+}
+
+#landing-page-title {
+  color: rgb(9, 5, 49);
+  font-size: 30px;
+  cursor: pointer;
 }
