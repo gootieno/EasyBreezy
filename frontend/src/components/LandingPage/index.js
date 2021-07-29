@@ -9,11 +9,13 @@ function LandingPage() {
     history.push("/destinations");
   };
   return (
-    <div className="landing-page-container">
-      <Typography onClick={handleClick} id="landing-page-title">
-        TravelPlans
-      </Typography>
-    </div>
+    <>
+      <div className="landing-page-container">
+        <Typography onClick={handleClick} id="landing-page-title">
+          TravelPlans
+        </Typography>
+      </div>
+    </>
   );
 }
 

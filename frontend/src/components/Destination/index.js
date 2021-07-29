@@ -4,6 +4,8 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import Navigation from "../Navigation";
+
 
 import "./index.css";
 
@@ -34,22 +36,25 @@ function Destination() {
   };
 
   return (
-    <div className="destination-container">
-      {destinations.map((destination, i) => (
-        <Card id={i} className={classes.root} onClick={handleDestination}>
-          <CardContent id={i}>
-            <Typography
-              className={classes.title}
-              color="textPrimary"
-              gutterBottom
-              id={i}
-            >
-              This is destination {destination}
-            </Typography>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+    <>
+      <Navigation />
+      <div className="destination-container">
+        {destinations.map((destination, i) => (
+          <Card id={i} className={classes.root} onClick={handleDestination}>
+            <CardContent id={i}>
+              <Typography
+                className={classes.title}
+                color="textPrimary"
+                gutterBottom
+                id={i}
+              >
+                This is destination {destination}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </>
   );
 }
 
