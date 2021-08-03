@@ -1,6 +1,15 @@
-div.destination-container {
+.destination-container {
   display: flex;
-  margin: 20px 10px 0 10px;
-  justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px 10px 0 20px;
+  width: 60%;
+  padding-left: 27rem;
+}
+
+div.destination {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: teal;
 }

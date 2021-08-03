@@ -11,9 +11,6 @@ function App() {
       <Route exact path="/">
         <LandingPage />
       </Route>
-      <Route path="/home">
-        <Home />
-      </Route>
       <Route path="/destinations">
         <Destination />
       </Route>
