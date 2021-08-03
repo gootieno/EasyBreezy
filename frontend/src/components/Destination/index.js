@@ -15,12 +15,17 @@ import Navigation from "../Navigation";
 import AddIcon from "@material-ui/icons/Add";
 
 import "./index.css";
+import { CardMedia } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    flex: "0 0 auto",
     marginRight: "30px",
     marginTop: "30px",
     cursor: "pointer",
+  },
+  image: {
+    height: "15rem",
   },
   menuButton: {
     marginRight: theme.spacing(1),
@@ -28,9 +33,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     padding: "10px 20px",
-  },
-  addButton: {
-    marginTop: "30px",
   },
 }));
 
@@ -64,7 +66,7 @@ function Destination() {
   const classes = useStyles();
   const history = useHistory();
   const handleDestination = (e) => {
-    const id = e.target.id;
+    const id = parseInt(e.target.id, 10) + 1;
     history.push(`events/${id}`);
   };
 
@@ -76,6 +78,10 @@ function Destination() {
           {destinations.map((destination, i) => (
             <Card id={i} className={classes.root} onClick={handleDestination}>
               <CardContent id={i}>
+                <img
+                  className={classes.image}
+                  src="https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1200-80.jpg"
+                />
                 <Typography
                   className={classes.title}
                   color="textPrimary"
@@ -87,9 +93,13 @@ function Destination() {
               </CardContent>
             </Card>
           ))}
-          <Button className={classes.addButton} onClick={handleClickOpen}>
-            <AddIcon fontSize="large" color="primary" />
-          </Button>
+          <Card className={classes.root} onClick={handleClickOpen}>
+            <CardContent>
+              <Typography>
+                <AddIcon fontSize="large" color="primary" />
+              </Typography>
+            </CardContent>
+          </Card>
           <Dialog
             open={open}
             onClose={handleClose}
