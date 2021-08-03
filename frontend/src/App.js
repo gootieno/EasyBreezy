@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Destination from "./components/Destination";
 import Event from "./components/Event";
 import LandingPage from "./components/LandingPage";
-import Home from "./components/Home";
 
 function App() {
   return (
