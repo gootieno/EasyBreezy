@@ -9,40 +9,51 @@ import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { makeStyles } from "@material-ui/core/styles";
-import Navigation from "../Navigation";
+import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 
 import "./index.css";
-import { CardMedia } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: "0 0 auto",
     marginRight: "30px",
     marginTop: "30px",
-    cursor: "pointer",
+    padding: "0px",
   },
   image: {
     height: "15rem",
+    cursor: "pointer",
   },
   title: {
     flexGrow: 1,
-    padding: "10px 20px",
+    padding: "30px 20px 0px",
+    margin: "0px",
+    cursor: "default",
   },
   addButton: {
     margin: "150px 10px",
+  },
+  modalButtons: {
+    display: "flex",
+    justifyContent: "space-around",
   },
   destinationHeader: {
     paddingLeft: "50px",
     paddingBottom: "10px",
   },
+  modalTitle: {
+    color: "teal",
+  },
+  cards: {
+    padding: "0px",
+  },
 }));
 
 function Destination() {
-  const [destinations, setDestinations] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-  ]);
+  const [destinations, setDestinations] = useState([1, 2]);
 
   const [open, setOpen] = useState(false);
 
@@ -59,6 +70,10 @@ function Destination() {
   const handleChange = (e) => {
     setDestinationName(e.target.value);
   };
+
+  const handleEdit = (e) => {};
+
+  const handleDelete = (e) => {};
 
   const handleCreate = () => {
     const next = destinations.length + 1;
@@ -85,31 +100,45 @@ function Destination() {
         <div className="destination-container">
           {destinations.map((destination, i) => (
             <Card id={i} className={classes.root} onClick={handleDestination}>
-              <CardContent id={i}>
+              <CardContent id={i} className={classes.cards}>
                 <img
                   className={classes.image}
                   src="https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1200-80.jpg"
                 />
-                <Typography
-                  className={classes.title}
-                  color="textPrimary"
-                  gutterBottom
-                  id={i}
-                >
-                  This is destination {destination}
-                </Typography>
+                <div className="card-content">
+                  <Typography
+                    className={classes.title}
+                    color="textPrimary"
+                    gutterBottom
+                    id={i}
+                  >
+                    This is destination {destination}
+                  </Typography>
+                  <div className="icon-buttons">
+                    <div id="edit-icon" onClick={handleEdit}>
+                      <EditIcon fontSize="small" />
+                    </div>
+                    <div id="delete-icon" onClick={handleDelete}>
+                      <HighlightOffIcon fontSize="small" />
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           ))}
           <Button className={classes.addButton} onClick={handleClickOpen}>
             <AddIcon fontSize="large" color="primary" />
           </Button>
+          {/* ----------------------dialog-modals------------------------------- */}
+          {/* ----------------------new destination------------------------------- */}
           <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="form-dialog-title"
           >
-            <DialogTitle id="form-dialog-title">New Destination</DialogTitle>
+            <DialogTitle id="form-dialog-title" className={classes.modalTitle}>
+              New Destination
+            </DialogTitle>
             <DialogContent>
               <TextField
                 autoFocus
@@ -122,7 +151,7 @@ function Destination() {
                 value={destinationName}
               />
             </DialogContent>
-            <DialogActions>
+            <DialogActions className={classes.modalButtons}>
               <Button onClick={handleClose} color="primary">
                 Cancel
               </Button>

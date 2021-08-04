@@ -22,3 +22,22 @@ div.destination {
   cursor: default;
   border-bottom: 1px solid black;
 }
+
+.card-content {
+  display: flex;
+}
+
+.icon-buttons {
+  display: flex;
+  margin: 30px 10px 0px 50px;
+}
+
+#delete-icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#edit-icon {
+  cursor: pointer;
+  margin-right: 10px;
+}
