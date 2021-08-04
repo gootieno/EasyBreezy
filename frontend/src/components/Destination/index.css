@@ -3,7 +3,9 @@
   flex-wrap: no wrap;
   justify-content: space-between;
   overflow-x: auto;
-  padding: 20px 40px;
+  overflow-y: hidden;
+  padding: 0px 40px 20px 0px;
+  margin: 0px 60px;
 }
 
 div.destination {
@@ -12,4 +14,11 @@ div.destination {
   padding: 0;
   overflow-x: hidden;
   background-color: teal;
+}
+
+.destination-title {
+  margin: 90px 60px 0px;
+  width: 81%;
+  cursor: default;
+  border-bottom: 1px solid black;
 }

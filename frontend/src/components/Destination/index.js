@@ -5,7 +5,6 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -27,12 +26,16 @@ const useStyles = makeStyles((theme) => ({
   image: {
     height: "15rem",
   },
-  menuButton: {
-    marginRight: theme.spacing(1),
-  },
   title: {
     flexGrow: 1,
     padding: "10px 20px",
+  },
+  addButton: {
+    margin: "150px 10px",
+  },
+  destinationHeader: {
+    paddingLeft: "50px",
+    paddingBottom: "10px",
   },
 }));
 
@@ -73,7 +76,12 @@ function Destination() {
   return (
     <>
       <div className="destination">
-        <Navigation />
+        <div className="destination-title">
+          <Typography variant="h5" className={classes.destinationHeader}>
+            My Destinations
+          </Typography>
+        </div>
+
         <div className="destination-container">
           {destinations.map((destination, i) => (
             <Card id={i} className={classes.root} onClick={handleDestination}>
@@ -93,13 +101,9 @@ function Destination() {
               </CardContent>
             </Card>
           ))}
-          <Card className={classes.root} onClick={handleClickOpen}>
-            <CardContent>
-              <Typography>
-                <AddIcon fontSize="large" color="primary" />
-              </Typography>
-            </CardContent>
-          </Card>
+          <Button className={classes.addButton} onClick={handleClickOpen}>
+            <AddIcon fontSize="large" color="primary" />
+          </Button>
           <Dialog
             open={open}
             onClose={handleClose}
