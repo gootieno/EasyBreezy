@@ -1,15 +1,34 @@
-import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import ProfileButton from './ProfileButton';
+import LoginFormModal from '../LoginFormModal';
+import './Navigation.css';
 
-function Navigation() {
+function Navigation({ isLoaded }){
+  const sessionUser = useSelector(state => state.session.user);
+
+  let sessionLinks;
+  if (sessionUser) {
+    sessionLinks = (
+      <ProfileButton user={sessionUser} />
+    );
+  } else {
+    sessionLinks = (
+      <>
+        <LoginFormModal />
+        <NavLink to="/signup">Sign Up</NavLink>
+      </>
+    );
+  }
+
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6">TravelMe</Typography>
-      </Toolbar>
-    </AppBar>
+    <ul>
+      <li>
+        <NavLink exact to="/">Home</NavLink>
+        {isLoaded && sessionLinks}
+      </li>
+    </ul>
   );
 }
 
