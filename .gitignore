@@ -1,5 +1,5 @@
 .gitignore
-.env 
+/backend/.env 
 build 
 .DS_Store
 /backend/node_modules

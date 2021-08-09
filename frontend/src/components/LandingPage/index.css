@@ -20,5 +20,15 @@
 #landing-page-title {
   color: rgb(9, 5, 49);
   font-size: 30px;
-  cursor: pointer;
+  cursor: default;
+  margin-bottom: 200px;
+}
+
+#animation-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#animation-container-destination {
+  margin-left: 10px;
 }
