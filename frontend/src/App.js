@@ -1,22 +1,40 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Destination from "./components/Destination";
-import Event from "./components/Event";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+import SignupFormPage from "./components/SignupFormPage";
+// import LoginFormPage from "./components/LoginFormPage";
+import * as sessionActions from "./store/session";
+import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
+import Destination from "./components/Destination";
 
 function App() {
+  const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+  }, [dispatch]);
+
   return (
-    <Router>
-      <Route exact path="/">
-        <LandingPage />
-      </Route>
-      <Route path="/destinations">
-        <Destination />
-      </Route>
-      <Route path="/event/:id">
-        <Event />
-      </Route>
-    </Router>
+    <>
+      <Navigation isLoaded={isLoaded} />
+      {isLoaded && (
+        <Switch>
+          {/* <Route path="/login" >
+            <LoginFormPage />
+          </Route> */}
+          <Route path="/" exact>
+            <LandingPage />
+          </Route>
+          <Route path="/signup">
+            <SignupFormPage />
+          </Route>
+          <Route path="/destination">
+            <Destination />
+          </Route>
+        </Switch>
+      )}
+    </>
   );
 }
 
