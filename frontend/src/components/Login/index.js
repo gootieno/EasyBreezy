@@ -1,16 +1,14 @@
 import React from "react";
+import { signInWithGoogle } from "../../service/firebase";
 import "./login.css";
-import { googleProvider } from "../../config/authMethod";
-import socialMediaAuth from "../../service/auth";
 
 function Login() {
-  const handleClick = async (provider) => {
-    const res = await socialMediaAuth(provider);
-    console.log(res);
+  const handleClick = () => {
+    signInWithGoogle();
   };
   return (
     <div className="google-login">
-      <button onClick={() => handleClick(googleProvider)}>GOOGLE</button>
+      <button onClick={handleClick}>GOOGLE</button>
     </div>
   );
 }
