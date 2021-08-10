@@ -5,6 +5,7 @@ import React from "react";
 
 import "./index.css";
 import Login from "../Login";
+import Calendar from "../Calendar";
 import { googleAuth } from "../../store/session";
 
 function LandingPage() {
@@ -18,9 +19,6 @@ function LandingPage() {
     // const res = await dispatch(googleAuth(profileObj))
     if (profileObj) {
       history.push("/destinations");
-    } else {
-      alert("login failed");
-      history.push("/");
     }
   };
 
@@ -29,7 +27,7 @@ function LandingPage() {
       <div className="landing-page-container">
         <Typography id="landing-page-title">TravelPlans</Typography>
         <div id="animation-container">
-          <Typography >I want to go to...</Typography>
+          <Typography>I want to go to...</Typography>
           <Typography id="animation-container-destination">HAWAII</Typography>
         </div>
         <Login googleResponse={googleResponse} />

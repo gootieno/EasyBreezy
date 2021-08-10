@@ -1,11 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";    
+import Card from "@material-ui/core/Card";
 
 import CardContent from "@material-ui/core/CardContent";
 
 import Typography from "@material-ui/core/Typography";
+import Calendar from "../Calendar";
 
 const useStyles = makeStyles({
   root: {
@@ -47,6 +48,9 @@ function Event({ event }) {
           <Typography>Event Date Here</Typography>
         </CardContent>
       </Card>
+      <div className="calendar">
+        <Calendar />
+      </div>
     </div>
   );
 }

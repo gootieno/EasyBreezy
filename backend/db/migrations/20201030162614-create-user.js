@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      googleId: {
+        unique: true,
+        type: Sequelize.INTEGER,
+      },
       username: {
         type: Sequelize.STRING(30),
         allowNull: false,

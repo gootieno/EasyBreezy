@@ -15,6 +15,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 
 import "./index.css";
+import Calendar from "../Calendar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +86,7 @@ function Destination() {
   const history = useHistory();
   const handleDestination = (e) => {
     const id = parseInt(e.target.id, 10) + 1;
-    history.push(`events/${id}`);
+    history.push(`/events`);
   };
 
   return (
