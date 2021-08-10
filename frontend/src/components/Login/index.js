@@ -1,19 +1,18 @@
 import React from "react";
-import GoogleLogin from "react-google-login";
+
 import { useHistory } from "react-router-dom";
 import "./login.css";
+import { googleProvider } from "../../config/authMethod";
+import googleLoginAuth from "../../service/auth";
 
-function Login({ googleResponse }) {
-  const googleClient = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+function Login() {
+  const handleClick = async (provider) => {
+    const res = await googleLoginAuth(provider);
+    console.log(res);
+  };
   return (
     <div className="google-login">
-      <GoogleLogin
-        clientId={`${googleClient}`}
-        onSuccess={googleResponse}
-        onFailure={googleResponse}
-        cookiePolicy={"single_host_origin"}
-        className="google-login-modal"
-      />
+      <button onClick={() => handleClick(googleProvider)}>GOOGLE LOGIN</button>
     </div>
   );
 }
