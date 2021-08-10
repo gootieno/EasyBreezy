@@ -1,6 +1,6 @@
 import firebase from "../config/firebase";
 
-const googleLoginAuth = (provider) => {
+const socialMediaAuth = (provider) => {
   return firebase
     .auth()
     .signInWithPopup(provider)
@@ -12,4 +12,4 @@ const googleLoginAuth = (provider) => {
     });
 };
 
-export default googleLoginAuth;
+export default socialMediaAuth;

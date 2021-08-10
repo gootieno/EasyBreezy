@@ -15,7 +15,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 
 import "./index.css";
-import Calendar from "../Calendar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +84,6 @@ function Destination() {
   const classes = useStyles();
   const history = useHistory();
   const handleDestination = (e) => {
-    const id = parseInt(e.target.id, 10) + 1;
     history.push(`/events`);
   };
 
@@ -100,9 +98,15 @@ function Destination() {
 
         <div className="destination-container">
           {destinations.map((destination, i) => (
-            <Card id={i} className={classes.root} onClick={handleDestination}>
+            <Card
+              key={`${i}-a-v-a`}
+              id={i}
+              className={classes.root}
+              onClick={handleDestination}
+            >
               <CardContent id={i} className={classes.cards}>
                 <img
+                  alt=""
                   className={classes.image}
                   src="https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1200-80.jpg"
                 />
