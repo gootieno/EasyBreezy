@@ -14,15 +14,26 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-const auth = firebase.auth();
-const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const auth = firebase.auth();
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => {
   auth
     .signInWithPopup(googleProvider)
     .then((res) => {
-      console.log(res.user);
+      return res.user;
     })
     .catch((error) => {
       console.log(error.message);
+    });
+};
+
+export const logout = () => {
+  auth
+    .signOut()
+    .then(() => {
+      window.location.href = "/";
+    })
+    .catch((err) => {
+      console.log(err.message);
     });
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
@@ -15,6 +15,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 
 import "./index.css";
+import { useGoogleAuth } from "../../context/user";
+import { logout } from "../../service/firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,10 +56,21 @@ const useStyles = makeStyles((theme) => ({
 
 function Destination() {
   const [destinations, setDestinations] = useState([1, 2]);
-
+  const [redirect, setRedirect] = useState(null);
   const [open, setOpen] = useState(false);
-
   const [destinationName, setDestinationName] = useState("");
+  const [user, setUser] = useState(null);
+
+  const googleData = useGoogleAuth();
+
+  useEffect(() => {
+    const { user } = googleData;
+    if (!user) {
+      setRedirect("/");
+    } else {
+      setUser(user);
+    }
+  }, [user]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -83,90 +96,108 @@ function Destination() {
 
   const classes = useStyles();
   const history = useHistory();
+
+  const handleLogout = async () => {
+    const res = await logout();
+    if (res === false) {
+      history.push("/");
+    }
+  };
+
   const handleDestination = (e) => {
     history.push(`/events`);
   };
 
+  if (redirect) {
+    history.push("/");
+  }
   return (
     <>
-      <div className="destination">
-        <div className="destination-title">
-          <Typography variant="h5" className={classes.destinationHeader}>
-            My Destinations
-          </Typography>
-        </div>
-
-        <div className="destination-container">
-          {destinations.map((destination, i) => (
-            <Card
-              key={`${i}-a-v-a`}
-              id={i}
-              className={classes.root}
-              onClick={handleDestination}
-            >
-              <CardContent id={i} className={classes.cards}>
-                <img
-                  alt=""
-                  className={classes.image}
-                  src="https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1200-80.jpg"
-                />
-                <div className="card-content">
-                  <Typography
-                    className={classes.title}
-                    color="textPrimary"
-                    gutterBottom
-                    id={i}
-                  >
-                    This is destination {destination}
-                  </Typography>
-                  <div className="icon-buttons">
-                    <div id="edit-icon" onClick={handleEdit}>
-                      <EditIcon fontSize="small" />
-                    </div>
-                    <div id="delete-icon" onClick={handleDelete}>
-                      <HighlightOffIcon fontSize="small" />
+      {user && (
+        <div className="destination">
+          <div className="destination-title">
+            <Typography variant="h5" className={classes.destinationHeader}>
+              My Destinations
+            </Typography>
+          </div>
+          <button className="logout" onClick={handleLogout}>
+            LOGOUT WITH GOOGLE
+          </button>
+          <div className="destination-container">
+            {destinations.map((destination, i) => (
+              <Card
+                key={`${i}-a-v-a`}
+                id={i}
+                className={classes.root}
+                onClick={handleDestination}
+              >
+                <CardContent id={i} className={classes.cards}>
+                  <img
+                    alt=""
+                    className={classes.image}
+                    src="https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1200-80.jpg"
+                  />
+                  <div className="card-content">
+                    <Typography
+                      className={classes.title}
+                      color="textPrimary"
+                      gutterBottom
+                      id={i}
+                    >
+                      This is destination {destination}
+                    </Typography>
+                    <div className="icon-buttons">
+                      <div id="edit-icon" onClick={handleEdit}>
+                        <EditIcon fontSize="small" />
+                      </div>
+                      <div id="delete-icon" onClick={handleDelete}>
+                        <HighlightOffIcon fontSize="small" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-          <Button className={classes.addButton} onClick={handleClickOpen}>
-            <AddIcon fontSize="large" color="primary" />
-          </Button>
-          {/* ----------------------dialog-modals------------------------------- */}
-          {/* ----------------------new destination------------------------------- */}
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogTitle id="form-dialog-title" className={classes.modalTitle}>
-              New Destination
-            </DialogTitle>
-            <DialogContent>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                placeholder="Going to.."
-                type="email"
-                fullWidth
-                onChange={handleChange}
-                value={destinationName}
-              />
-            </DialogContent>
-            <DialogActions className={classes.modalButtons}>
-              <Button onClick={handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={handleCreate} color="primary">
-                Create
-              </Button>
-            </DialogActions>
-          </Dialog>
+                </CardContent>
+              </Card>
+            ))}
+            <Button className={classes.addButton} onClick={handleClickOpen}>
+              <AddIcon fontSize="large" color="primary" />
+            </Button>
+            {/* ----------------------dialog-modals------------------------------- */}
+            {/* ----------------------new destination------------------------------- */}
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle
+                id="form-dialog-title"
+                className={classes.modalTitle}
+              >
+                New Destination
+              </DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  placeholder="Going to.."
+                  type="email"
+                  fullWidth
+                  onChange={handleChange}
+                  value={destinationName}
+                />
+              </DialogContent>
+              <DialogActions className={classes.modalButtons}>
+                <Button onClick={handleClose} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleCreate} color="primary">
+                  Create
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
