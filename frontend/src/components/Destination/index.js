@@ -14,6 +14,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 
+import Navigation from "../Navigation";
+
 import "./index.css";
 import { useGoogleAuth } from "../../context/user";
 import { logout } from "../../service/firebase";
@@ -97,13 +99,6 @@ function Destination() {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleLogout = async () => {
-    const res = await logout();
-    if (res === false) {
-      history.push("/");
-    }
-  };
-
   const handleDestination = (e) => {
     history.push(`/events`);
   };
@@ -115,14 +110,13 @@ function Destination() {
     <>
       {user && (
         <div className="destination">
+          <Navigation />
           <div className="destination-title">
             <Typography variant="h5" className={classes.destinationHeader}>
               My Destinations
             </Typography>
           </div>
-          <button className="logout" onClick={handleLogout}>
-            LOGOUT WITH GOOGLE
-          </button>
+
           <div className="destination-container">
             {destinations.map((destination, i) => (
               <Card

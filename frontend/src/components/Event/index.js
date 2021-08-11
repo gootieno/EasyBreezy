@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import Navigation from "../Navigation";
 
 const useRowStyles = makeStyles({
   root: {
@@ -38,6 +39,7 @@ function Row(props) {
 
   return (
     <React.Fragment>
+      {/* <Navigation /> */}
       <TableRow className={classes.root}>
         <TableCell>
           <IconButton
@@ -89,19 +91,16 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired,
     history: PropTypes.arrayOf(
       PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        time: PropTypes.string.isRequired,
       })
     ).isRequired,
     name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
+    time: PropTypes.string.isRequired,
   }).isRequired,
 };
 
