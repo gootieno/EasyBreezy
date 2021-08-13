@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     static associate(models) {
       // define association here
+      User.hasMany(models.Destination, { foreignKey: "userId" });
     }
   }
   User.init(
@@ -56,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       googleId: {
+        unique: true,
         type: DataTypes.INTEGER,
       },
       email: {
