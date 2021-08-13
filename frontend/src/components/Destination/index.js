@@ -19,6 +19,7 @@ import Navigation from "../Navigation";
 import "./index.css";
 import { useGoogleAuth } from "../../context/user";
 import { logout } from "../../service/firebase";
+import Event from "../Event";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,14 +57,53 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function createData(name, time, rating) {
+  return {
+    name,
+    time,
+    rating,
+    history: [{ name, time, rating }],
+  };
+}
+
 function Destination() {
   const [destinations, setDestinations] = useState([1, 2]);
+  const [currentId, setCurrentId] = useState(null);
   const [redirect, setRedirect] = useState(null);
   const [open, setOpen] = useState(false);
   const [destinationName, setDestinationName] = useState("");
   const [user, setUser] = useState(null);
-
+  const [showDestination, setShowDestination] = useState(false);
   const googleData = useGoogleAuth();
+
+  const [tableRows, setTableRows] = useState([
+    {
+      name: "Surfing",
+      time: "5:00 PM",
+      rating: 5,
+    },
+  ]);
+
+  const [rows, setRows] = useState([
+    { name: "Surfing", time: "5:00PM", rating: "" },
+  ]);
+
+  const addEvents = (eventArr) => {
+    eventArr.forEach(({ name, time, rating }) => {
+      createData({ name, time, rating });
+    });
+  };
+
+  const createData = (name, time, rating) => {
+    const data = {
+      name,
+      time,
+      rating,
+      history: [{ name, time, rating }],
+    };
+
+    setRows([...rows, data]);
+  };
 
   useEffect(() => {
     const { user } = googleData;
@@ -100,7 +140,21 @@ function Destination() {
   const history = useHistory();
 
   const handleDestination = (e) => {
-    history.push(`/events`);
+    setCurrentId(e.target.id);
+    if (e.target.id === "destination-container") {
+      setShowDestination(false);
+    }
+    if (e.target.id === currentId) {
+      setShowDestination(true);
+    }
+    if (
+      e.target.id !== currentId &&
+      showDestination &&
+      e.target.id !== "destination-container"
+    ) {
+      setShowDestination(false);
+      setCurrentId(e.target.id);
+    }
   };
 
   if (redirect) {
@@ -109,7 +163,11 @@ function Destination() {
   return (
     <>
       {user && (
-        <div className="destination">
+        <div
+          className="destination"
+          id="destination-page"
+          onClick={handleDestination}
+        >
           <Navigation />
           <div className="destination-title">
             <Typography variant="h5" className={classes.destinationHeader}>
@@ -117,7 +175,7 @@ function Destination() {
             </Typography>
           </div>
 
-          <div className="destination-container">
+          <div className="destination-container" id="destination-container">
             {destinations.map((destination, i) => (
               <Card
                 key={`${i}-a-v-a`}
@@ -127,11 +185,12 @@ function Destination() {
               >
                 <CardContent id={i} className={classes.cards}>
                   <img
+                    id={i}
                     alt=""
                     className={classes.image}
                     src="https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1200-80.jpg"
                   />
-                  <div className="card-content">
+                  <div id={i} className="card-content">
                     <Typography
                       className={classes.title}
                       color="textPrimary"
@@ -190,6 +249,10 @@ function Destination() {
               </DialogActions>
             </Dialog>
           </div>
+          {showDestination &&
+            tableRows.map((row) => (
+              <Event id={currentId} row={row} createData={createData} />
+            ))}
         </div>
       )}
     </>

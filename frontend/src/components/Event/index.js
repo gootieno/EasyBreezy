@@ -24,22 +24,13 @@ const useRowStyles = makeStyles({
   },
 });
 
-function createData(name, time) {
-  return {
-    name,
-    time,
-    history: [{ name, time }],
-  };
-}
-
-function Row(props) {
-  const { row } = props;
+function Row({ createData, row }) {
+  // const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
   return (
     <React.Fragment>
-      {/* <Navigation /> */}
       <TableRow className={classes.root}>
         <TableCell>
           <IconButton
@@ -58,27 +49,26 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                My Events
-              </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">Event Name</TableCell>
+                    <TableCell>Event Name</TableCell>
                     <TableCell>Time</TableCell>
+                    <TableCell>Rating</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.time}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.name}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {historyRow.time}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  <TableRow key={row.time}>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {row.time}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {row.rating}
+                    </TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
             </Box>
@@ -104,14 +94,9 @@ Row.propTypes = {
   }).isRequired,
 };
 
-const rows = [
-  createData("Surfing", "5:00pm"),
-  createData("Shrimp Dinner", "8:00pm"),
-];
-
-export default function Event() {
+export default function Event({ id, row }) {
   return (
-    <div className="events-container">
+    <div id={id} className="events-container">
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -121,9 +106,7 @@ export default function Event() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <Row key={row.name} row={row} />
-            ))}
+            <Row row={row} />
           </TableBody>
         </Table>
       </TableContainer>
