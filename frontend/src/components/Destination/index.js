@@ -21,6 +21,9 @@ import { useGoogleAuth } from "../../context/user";
 import { logout } from "../../service/firebase";
 import Event from "../Event";
 
+import { useDispatch, useSelector } from "react-redux";
+import { addOneDestination, getDestinations } from "../../store/destinations";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flex: "0 0 auto",
@@ -67,14 +70,22 @@ function createData(name, time, rating) {
 }
 
 function Destination() {
-  const [destinations, setDestinations] = useState([1, 2]);
-  const [currentId, setCurrentId] = useState(null);
   const [redirect, setRedirect] = useState(null);
   const [open, setOpen] = useState(false);
   const [destinationName, setDestinationName] = useState("");
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({ id: 1 });
   const [showDestination, setShowDestination] = useState(false);
+
   const googleData = useGoogleAuth();
+  const dispatch = useDispatch();
+
+  const destinations = useSelector((state) =>
+    Object.values(state.destinations)
+  );
+
+  useEffect(() => {
+    dispatch(getDestinations(user));
+  }, [dispatch]);
 
   const [tableRows, setTableRows] = useState([
     {
@@ -87,12 +98,6 @@ function Destination() {
   const [rows, setRows] = useState([
     { name: "Surfing", time: "5:00PM", rating: "" },
   ]);
-
-  const addEvents = (eventArr) => {
-    eventArr.forEach(({ name, time, rating }) => {
-      createData({ name, time, rating });
-    });
-  };
 
   const createData = (name, time, rating) => {
     const data = {
@@ -130,9 +135,9 @@ function Destination() {
 
   const handleDelete = (e) => {};
 
-  const handleCreate = () => {
-    const next = destinations.length + 1;
-    setDestinations([...destinations, next]);
+  const handleCreate = async () => {
+    const payload = { name: destinationName, userId: 1 };
+    const newDestination = await dispatch(addOneDestination(payload));
     handleClose();
   };
 
@@ -140,21 +145,7 @@ function Destination() {
   const history = useHistory();
 
   const handleDestination = (e) => {
-    setCurrentId(e.target.id);
-    if (e.target.id === "destination-container") {
-      setShowDestination(false);
-    }
-    if (e.target.id === currentId) {
-      setShowDestination(true);
-    }
-    if (
-      e.target.id !== currentId &&
-      showDestination &&
-      e.target.id !== "destination-container"
-    ) {
-      setShowDestination(false);
-      setCurrentId(e.target.id);
-    }
+    setShowDestination((prevState) => !prevState);
   };
 
   if (redirect) {
@@ -176,41 +167,46 @@ function Destination() {
           </div>
 
           <div className="destination-container" id="destination-container">
-            {destinations.map((destination, i) => (
-              <Card
-                key={`${i}-a-v-a`}
-                id={i}
-                className={classes.root}
-                onClick={handleDestination}
-              >
-                <CardContent id={i} className={classes.cards}>
-                  <img
-                    id={i}
-                    alt=""
-                    className={classes.image}
-                    src="https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1200-80.jpg"
-                  />
-                  <div id={i} className="card-content">
-                    <Typography
-                      className={classes.title}
-                      color="textPrimary"
-                      gutterBottom
+            {destinations &&
+              destinations.map((destination, i) => (
+                <Card
+                  key={`${i}-a-v-a`}
+                  id={i}
+                  className={classes.root}
+                  onClick={handleDestination}
+                >
+                  <CardContent id={i} className={classes.cards}>
+                    <img
                       id={i}
-                    >
-                      This is destination {destination}
-                    </Typography>
-                    <div className="icon-buttons">
-                      <div id="edit-icon" onClick={handleEdit}>
-                        <EditIcon fontSize="small" />
-                      </div>
-                      <div id="delete-icon" onClick={handleDelete}>
-                        <HighlightOffIcon fontSize="small" />
+                      alt=""
+                      className={classes.image}
+                      src="https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1200-80.jpg"
+                    />
+                    {console.log("destinations", destinations)}
+                    <div id={i} className="card-content">
+                      <Typography
+                        className={classes.title}
+                        color="textPrimary"
+                        gutterBottom
+                        id={i}
+                      >
+                        {destination.name}
+                      </Typography>
+                      <div className="icon-buttons">
+                        <div id="edit-icon" onClick={handleEdit}>
+                          <EditIcon fontSize="small" onClick={handleEdit} />
+                        </div>
+                        <div id="delete-icon" onClick={handleDelete}>
+                          <HighlightOffIcon
+                            onClick={handleDelete}
+                            fontSize="small"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ))}
             <Button className={classes.addButton} onClick={handleClickOpen}>
               <AddIcon fontSize="large" color="primary" />
             </Button>
@@ -251,7 +247,7 @@ function Destination() {
           </div>
           {showDestination &&
             tableRows.map((row) => (
-              <Event id={currentId} row={row} createData={createData} />
+              <Event id={1} row={row} createData={createData} />
             ))}
         </div>
       )}

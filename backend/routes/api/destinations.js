@@ -31,6 +31,7 @@ router.post(
   "",
   asyncHandler(async (req, res, next) => {
     const { name, userId } = req.body;
+    // let id = parseInt(userId, 10);
     const destination = await Destination.create({ name, userId });
 
     if (destination) res.json(destination);
